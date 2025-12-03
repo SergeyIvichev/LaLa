@@ -9,6 +9,9 @@ import sqlite3
 import os
 import random
 from typing import Optional, Dict, Any
+import sys
+sys.path.append('/workspace')
+import config
 
 
 class QuizGameApp:
@@ -463,13 +466,13 @@ class QuizGameApp:
         @self.app.route('/api/config', methods=['GET'])
         def get_config():
             # Return the game configuration
-            config = {
-                'symbols': ['★', '♥', '♦', '♣', '♠', '♪', '♫', '☀', '☁', '☂'],
+            config_data = {
+                'symbols': config.SYMBOLS,
                 'settings': {
                     'round_counters': [0, 20, 20, 20, 20, 10]  # Number of cells to open per round
                 }
             }
-            return jsonify(config)
+            return jsonify(config_data)
 
         @self.app.route('/api/get_opened_cells', methods=['GET'])
         def get_opened_cells():

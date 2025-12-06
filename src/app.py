@@ -466,6 +466,7 @@ class QuizGameApp:
         @self.app.route('/api/config', methods=['GET'])
         def get_config():
             # Return the game configuration
+            # Note: No break/intermission logic is implemented - all cells can be opened continuously
             config_data = {
                 'symbols': config.SYMBOLS,
                 'settings': {
@@ -486,6 +487,7 @@ class QuizGameApp:
 
             try:
                 # Get all opened cells for this session and round
+                # Note: No intermission/break logic is checked here - all cells are returned without considering breaks
                 cursor.execute('''
                     SELECT row_num, col_num, cell_value 
                     FROM opened_cells 
@@ -532,6 +534,7 @@ class QuizGameApp:
                     return jsonify({'error': 'Cell already opened'}), 400
                 
                 # Insert the opened cell
+                # Note: No break/intermission logic is implemented here - all cells can be opened without interruption
                 cursor.execute('''
                     INSERT INTO opened_cells (session_id, round_num, row_num, col_num, cell_value)
                     VALUES (?, ?, ?, ?, ?)
